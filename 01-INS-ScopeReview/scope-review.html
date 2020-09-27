@@ -10,42 +10,33 @@
 <body>
     <script>
 
-        // Example One: Global Scope
+        // Example One: Local Scope 
+        
         // -------------------------------------------
-        var a = 1;
-        function one() {
-            console.log("One: " + a);
+        function onetop() {
+
+            function one(a) {
+                console.log("One: " + a);
+            }
+            one(a);
         }
 
         // What will get logged? ("One: 1")
-        one();
+        onetop();
 
         // Example Two: Local Scope
         // -------------------------------------------
-        function twotop() {
-
-            function two(a) {
-                console.log("Two: " + a);
-            }
-            two(a);
-        }
-
-        // What will get logged? ("Two: 1")
-        twotop();
-
-        // Example Three: Local Scope
-        // -------------------------------------------
         var a = 5;
-        function three() {
+        function two() {
 
-            var a = 3;
-            console.log("Three: " + a);
+            var a = 2;
+            console.log("Two: " + a);
         }
 
-        // What will get logged? ("Three: 3");
-        three();
+        // What will get logged? ("Two: 2");
+        two();
 
-        // Example Four: Local Scope
+        // Example Three: Local Scope w/ Nested Functions
         // -------------------------------------------
         function first() {
             var a = 5;
@@ -54,7 +45,7 @@
                 var a = 3;
 
                 function third() {
-                    console.log("Four: " + a);
+                    console.log("Three: " + a);
                 }
 
                 third();
@@ -62,13 +53,15 @@
 
             second();
 
-            // What will get logged? ("Five: 5"),
+            // What will get logged? ("Four: 5"),
             // because we are outside of second() and back in the scope of first()
-            console.log("Five: " + a);
+            console.log("Four: " + a);
         }
 
-        // What will get logged? ("Four: 3");
+        // What will get logged? ("Three: 3");
         first();
+
+        console.dir(first());
 
     </script>
 </body>
