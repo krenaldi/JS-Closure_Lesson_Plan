@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demonstration of Private Methods with Closures</title>
+</head>
+
+<body>
+    <script>
+        var makeCounter = function () {
+            var privateCounter = 0;
+            function changeBy(val) {
+                privateCounter += val;
+            }
+            return {
+                increment: function () {
+                    changeBy(1);
+                },
+
+                decrement: function () {
+                    changeBy(-1);
+                },
+
+                value: function () {
+                    return privateCounter;
+                }
+            }
+        };
+        /* Create 3 counters by calling the makeCounter function and run the increment and decrement different multiple times against each counter to get a diffrerent result. Then call the value function against each counter to view the results*/
+        var counter1 = makeCounter();
+        var counter2 = makeCounter();
+        var counter3 = makeCounter();
+
+        console.log("Counter1 Value: ", counter1.value());  // 0
+        console.log("Counter2 Value: ", counter2.value());  // 0
+        console.log("Counter3 Value: ", counter3.value());  // 0
+
+        counter1.increment();
+        counter1.increment();
+        counter2.increment();
+        console.log("Counter1 Value: ", counter1.value());  // 2
+        console.log("Counter2 Value: ", counter2.value());  // 1 
+        console.log("Counter3 Value: ", counter3.value());  // 0
+
+        counter1.decrement();
+        counter2.decrement();
+        counter3.decrement();
+        console.log("Counter1 Value: ", counter1.value());  // 1
+        console.log("Counter2 Value: ", counter2.value());  // 0
+        console.log("Counter3 Value: ", counter3.value());  // -1
+
+    </script>
+</body>
+
+</html>
