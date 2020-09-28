@@ -29,7 +29,7 @@ I'm also going to assume that students have seen event handling and callbacks bu
 
   ![Console Screenshot of Closure](Assets/closure-in-console.png)
 
-* If students have further questions about closures, refer them to the [MDN docs on closures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures).
+* If students have further questions about closures, refer them to the [MDN Docs on closures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures).
 
 ### 3. Students Do: Closure Review
 
@@ -55,7 +55,7 @@ I'm also going to assume that students have seen event handling and callbacks bu
   *  The first is the anonymous function with lexical scope enclosed within the Grouping Operator (). This prevents access to variables within the IIFE.
   *  The second part creates the immediately invoked function expression () through which the JavaScript engine will directly interpret the function.
 
-* Students can learn more about IIFE at https://developer.mozilla.org/en-US/docs/Glossary/IIFE
+* Students can learn more about IIFE at [MDN Docs on IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE)
 
 
 ### 6. Students Do: Private Methods Created with Closure
