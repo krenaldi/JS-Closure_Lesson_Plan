@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workgin with scope & closure</title>
+</head>
+<body>
+    <script>
+        /* Go through each line of code for each example and determine which scope each variable or function declaration belongs to and then determine what will be logged when function is run. Open this file in a browser and view the reults in Console when finished */
+        
+        // Example One:
+        
+        var a = 10;                                 // Scope: Global
+        function outer() {                          // Scope: Global
+            var b = a;                              // Scope: Outer 
+            console.log(b);
+            function inner() {                      // Scope: Outer 
+                var b = 20;                         // Scope: Inner
+                var c = b;                          // Scope: Inner
+                console.log(c);
+            }
+            inner();
+        }
+        outer();
+
+        // Logs 10 , 20
+
+        /* What would happen if we move var b = 20 to the end of inner()? What console.log(c) return?
+            ANSWER: It will display undefined because even though the compiler knows there's a b variable in inner() the interpreter can't find the value of c since b is undefined at time of when console.log is called.  
+         */
+
+        // Example Two:
+
+        var x = 10;                                  // Scope: Global
+        function outer2() {                          // Scope: Global
+            var y = 20;                              // Scope: Outer 
+            function inner2() {                      // Scope: Outer 
+                x++;                                 // Scope: Inner
+                y++;                                 // Scope: Inner
+                console.log(x);
+                console.log(y);
+            }
+            inner2();
+        }
+        outer2();  // Logs 11, 21
+        outer2();  // Logs 12, 21 - The reason why x is 12 and y is still 21 when outer2() is called a second time is because var x is in global scope and therefore in memory so when inner2() runs the first time it updates x to 11 in the global scope so when outer2() is called a 2nd time inner2() will be receiving 11 for x. Var y will always be 20 since variables declared inside functions get removed from memory once the function completes so outer2() is creating a new instance of y when ran. 
+
+    </script>
+</body>
+</html>
