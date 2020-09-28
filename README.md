@@ -14,7 +14,7 @@ I'm also going to assume that students have seen event handling and callbacks bu
 
 * Explain to class that we are going to cover the topic of **closures** and the concept of hoisting when it comes to executing a function.
 
-* A **closure** is the combination of a function bundled together (or rather enclosed) with references to its surrounding state (the lexical environment). In other words, a closure gives you access to an outer function’s scope from an inner function. In JavaScript, closures are created every time a function is created at function creation time.
+* A **closure** is the combination of a function bundled together (or rather enclosed) with references to its surrounding state (the lexical environment). In other words, a closure gives you access to an outer function’s scope from an inner function **even after the outer function has completed since the inner function will have the state that is was created in still in memory**. In JavaScript, closures are created every time a function is created at function creation time.
 
 * Closures are frequently used in JavaScript for object data privacy, in event handlers and callback functions, and in partial applications, currying, and other functional programming patterns.
 
@@ -74,3 +74,95 @@ I'm also going to assume that students have seen event handling and callbacks bu
 * Inform the students that using closures in this way provides benefits that are normally associated with object-oriented programming. In particular, data hiding and encapsulation. 
 
 * If a student asks if this is the same as using `class`, then tell them it is except using classes is better than using closures since closures will need to hold every function in memory while classes don't. Let the student know we will be going over `class` another time. 
+
+### 8. Instructor Do: Common Usage of Closures
+
+* Let the students know that closures are useful because they let you associate data (the lexical environment) with a function that operates on that data. This has obvious parallels to object-oriented programming, where objects allow you to associate data (the object's properties) with one or more methods.
+
+* Inform the students that they have already seen closures in some of the work and exercises they did throughout the course. Closures are used in event handling and callback functions as when making an API call to get data.
+
+* Open `index.html` in `05-INS-ClosureUsage` in a browser. Demonstrate hat the application works as intended by switching the typeface.
+
+  * Select serif, then go back to sans-serif. 
+
+  * Type some random text in the textarea.
+
+* Open `script.js`. Point out how each of the `addEventListeners` methods have two arguments: the first is the name of the event the listener is supposed to be listening for and the second is an anonymous function that contains what the listener is supposed to do when even is triggered. That anonymous function is an example of a closure since this function can only be triggered by a certain event and no outside function can access the variables other than those created and called in it.
+
+```javascript
+typefaceEl.addEventListener("change", function(event) {
+  event.preventDefault();
+  typeface = typefaceEl.value;
+  document.querySelector(".container").style.fontFamily = typeface;
+});
+
+textAreaEl.addEventListener("keydown", function(event) {
+  var key = event.key.toLowerCase();
+  var alphabetNumericCharacters = "abcdefghijklmnopqrstuvwxyz0123456789 ".split("");
+  if (alphabetNumericCharacters.includes(key)) {
+    elements.forEach(function(element) {
+      element.textContent += event.key;
+    });
+  }
+});
+
+clearEl.addEventListener("click", function(event) {
+  event.preventDefault();
+  textAreaEl.value = "";
+  elements.forEach(function(element) {
+    element.textContent = "";
+  });
+});
+
+```
+
+### 9. Students Do: Using Closures on Web Application
+
+#### Instructions
+
+* Open `index.html` in `Unsolved/06-INS-ClosureUsage` in a browser and take a moment to study the application.
+
+* Take a moment to study the code in `index.html` then add the following functionality to the application:
+
+  1. The select element should trigger the `toggleDisplay` function in `script.js`.
+
+  2. If `key` is selected, the event's code, key, and status (keydown or keyup) should be displayed in the `#key-events` div when the user presses a key anywhere on the document.
+
+  3. If `click` is selected, the text content of the event's target, and the cursor's x and y coordinates should be displayed in the `#click-events` div when the user clicks the anywhere on document.
+
+### 10. Instructor Review 
+
+* As in the previous demo, go over the code and ask students of they have any questions. 
+
+* Ask the class if they can think of some more examples of when closures would come in handy?
+
+* After hearing some examples, bring up the issue with async callbacks in loops particulaly with setTimeout.
+
+* Slack out the following code and tell the students that we want to count starting from 0 and have the console.log print each number after 1 second:
+  ```js
+    var i;
+    var print = function() {
+    console.log(i);
+    }
+    for (i = 0; i < 10; i++) {
+        setTimeout(print, 1000);
+    }
+  ```
+
+  What happens when this code is run? And how do we fix it?
+
+  The answer is we need to add another closure and create a new variable to keep track of i since i has a value of 10 after for loop iterates & stops when i=10 after waiting 1 second:
+
+  ```js
+    var i;
+    for (i = 0; i < 10; i++) {
+        // Insert IIFE closure here
+        (function() {
+            var currentValue = i;
+            setTimeout(function() {
+            console.log(i);
+            }, 1000);
+        })();
+    }
+  ```
+  With a closure added, i will carry it's value from the loop since the anonymous function will not allow i=10 to get in from the loop.
